@@ -38,6 +38,24 @@ if (isset($_GET['f_name']) &&isset($_GET['s_name']) &&isset($_GET['description']
         $insertregister->bindParam("rating", $rating);
         $insertregister->bindParam("active", $active);
         $insertregister->execute();
+        //check  city
+        $getcity = $database->prepare("SELECT * FROM `citys` WHERE `city` = :city");
+        $getcity->bindParam(":city", $_GET['city']);
+        $getcity->execute();
+        if($getcity->rowCount()==0){
+            $insertcity = $database->prepare('INSERT INTO `citys` (`city`) VALUES(:city)');
+            $insertcity->bindParam("city", $_GET['city']);
+            $insertcity->execute();
+        }
+        //check spcialty 
+        $getspecialty = $database->prepare("SELECT * FROM `specialties` WHERE `specialty` = :specialty");
+        $getspecialty->bindParam(":specialty", $_GET['specialty']);
+        $getspecialty->execute();
+        if($getspecialty->rowCount()==0){
+            $insertcity = $database->prepare('INSERT INTO `specialties` (`specialty`) VALUES(:specialty)');
+            $insertcity->bindParam("specialty", $_GET['specialty']);
+            $insertcity->execute();
+        }
 
 
         $message = ['mes' => 'good'];
