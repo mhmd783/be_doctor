@@ -2,6 +2,7 @@
 include '../connect_dp/database.php';
 //&& isset($_GET['specialty'])  &&isset($_GET['city'])
 $numberrow=10;
+
 if (isset($_GET['id'])) { 
     
     $id_poststart = $_GET['id'];

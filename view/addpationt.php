@@ -12,7 +12,7 @@ if (isset($_GET['id_pationt']) &&isset($_GET['id_doctor'])&&isset($_GET['name_do
     $phonepationt = $_GET['phonepationt'];
     $agepationt=$_GET['agepationt'];
     $dateenter=$_GET['date'];
-    $dateregister=date('Y-m-d');
+    $dateregister=date('m/d/Y');
     $send_to_doctor=0;
 
     $insertpost = $database->prepare('INSERT INTO `reservation` ( `id_pationt`, `id_doctor`,`name_doctor`, `date_register`, `name_pationt`, `phone`, `age`, `date_enter` ,`send_to_doctor`)
@@ -28,12 +28,27 @@ if (isset($_GET['id_pationt']) &&isset($_GET['id_doctor'])&&isset($_GET['name_do
     $insertpost->bindParam("send_to_doctor", $send_to_doctor);
     
     $insertpost->execute();
+    $get = $database->prepare("SELECT * FROM `doctor` WHERE `id` = :id");
+    $get->bindParam(":id", $id_doctor);
+    $get->execute();
+    
+    foreach($get as $row){
+        $active=$row['active']-1;
+        if($active!=-1){
+            $update = $database->prepare('UPDATE `doctor` SET `active`=:active WHERE `id`=:id');
+            $update->bindParam("active", $active);
+            $update->bindParam("id", $id_doctor);
+            $update->execute();
+            
+            $message = ['mes' => 'good'];
+            $result = [$message];
+            $result = json_encode($result);
+            print_r($result);
+        }
+    }
+    
 
-
-    $message = ['mes' => 'good'];
-    $result = [$message];
-    $result = json_encode($result);
-    print_r($result);
+    
     
 }
 
@@ -96,6 +111,5 @@ if (isset($_GET['id_reser'])&&isset($_GET['update'])){
     $result = [$message];
     $result = json_encode($result);
     print_r($result);
-    
 }
 ?>

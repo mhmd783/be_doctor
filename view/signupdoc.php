@@ -16,7 +16,7 @@ if (isset($_GET['f_name']) &&isset($_GET['s_name']) &&isset($_GET['description']
         
     }else{
         $rating=0;
-        $active=1;
+        $active=5;
         
         
         $insertregister = $database->prepare('INSERT INTO `doctor` (`f_name`, `s_name`, `description`, `specialty`, `phone`, `email`, `pass`, `age`, `gender`, `city`, `area`, `streat`, `number_build`, `salary`, `rating` ,`active`) 
